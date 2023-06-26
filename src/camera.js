@@ -18,6 +18,7 @@ import * as scatter from 'scatter-gl';
 
 import * as params from './util/params';
 import { isMobile } from './util/util';
+import { distSquared } from '@tensorflow/tfjs-core/dist/util_base';
 
 // These anchor points allow the hand pointcloud to resize according to its
 // position in the input.
@@ -58,26 +59,6 @@ const connections = [
   [18, 19],
   [19, 20],
 ];
-
-function createScatterGLContext(selectors) {
-  const scatterGLEl = document.querySelector(selectors);
-  return {
-    scatterGLEl,
-    scatterGL: new scatter.ScatterGL(scatterGLEl, {
-      rotateOnStart: true,
-      selectEnabled: false,
-      styles: { polyline: { defaultOpacity: 1, deselectedOpacity: 1 } },
-    }),
-    scatterGLHasInitialized: false,
-  };
-}
-
-const scatterGLCtxtLeftHand = createScatterGLContext(
-  '#scatter-gl-container-left'
-);
-const scatterGLCtxtRightHand = createScatterGLContext(
-  '#scatter-gl-container-right'
-);
 
 export class Camera {
   constructor() {
@@ -143,17 +124,6 @@ export class Camera {
     camera.ctx.translate(camera.video.videoWidth, 0);
     camera.ctx.scale(-1, 1);
 
-    for (const ctxt of [scatterGLCtxtLeftHand, scatterGLCtxtRightHand]) {
-      ctxt.scatterGLEl.style = `width: ${videoWidth / 2}px; height: ${
-        videoHeight / 2
-      }px;`;
-      ctxt.scatterGL.resize();
-
-      ctxt.scatterGLEl.style.display = params.STATE.modelConfig.render3D
-        ? 'inline-block'
-        : 'none';
-    }
-
     return camera;
   }
 
@@ -176,42 +146,24 @@ export class Camera {
    * @param hands A list of hands to render.
    */
   drawResults(hands) {
-    // Sort by right to left hands.
-    hands.sort((hand1, hand2) => {
-      if (hand1.handedness < hand2.handedness) return 1;
-      if (hand1.handedness > hand2.handedness) return -1;
-      return 0;
-    });
+    this.drawResult(hands[0]);
 
-    // Pad hands to clear empty scatter GL plots.
-    while (hands.length < 2) hands.push({});
-
-    for (let i = 0; i < hands.length; ++i) {
-      // Third hand and onwards scatterGL context is set to null since we
-      // don't render them.
-      const ctxt = [scatterGLCtxtLeftHand, scatterGLCtxtRightHand][i];
-      this.drawResult(hands[i], ctxt);
+    // TODO: draw line between last and current position
+    // TODO: detect when index and middle finger raised together
+    if (this.detectDrawing(hands[0])) {
+      console.log('drawing!');
+    } else {
+      console.log('huh');
     }
   }
 
   /**
    * Draw the keypoints on the video.
    * @param hand A hand with keypoints to render.
-   * @param ctxt Scatter GL context to render 3D keypoints to.
    */
-  drawResult(hand, ctxt) {
+  drawResult(hand) {
     if (hand.keypoints != null) {
       this.drawKeypoints(hand.keypoints, hand.handedness);
-    }
-    // Don't render 3D hands after first two.
-    if (ctxt == null) {
-      return;
-    }
-    if (hand.keypoints3D != null && params.STATE.modelConfig.render3D) {
-      this.drawKeypoints3D(hand.keypoints3D, hand.handedness, ctxt);
-    } else {
-      // Clear scatter plot.
-      this.drawKeypoints3D([], '', ctxt);
     }
   }
 
@@ -289,5 +241,32 @@ export class Camera {
     const sequences = connections.map((pair) => ({ indices: pair }));
     ctxt.scatterGL.setSequences(sequences);
     ctxt.scatterGLHasInitialized = true;
+  }
+
+  /**
+   * Detects whether both index and middle finger are raised together or not
+   * @param hand A hand with keypoints to use to detect
+   */
+  detectDrawing(hand) {
+    if (hand.keypoints != null) {
+      const fingertips = this.distSquared(
+        hand.keypoints[8],
+        hand.keypoints[12]
+      );
+      const fingerdips = this.distSquared(
+        hand.keypoints[7],
+        hand.keypoints[11]
+      );
+      const ratio = fingertips / fingerdips;
+
+      if (ratio < 1.1) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  distSquared(a, b) {
+    return (a.x - b.x) ** 2 + (a.y - b.y) ** 2;
   }
 }
