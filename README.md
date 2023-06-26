@@ -10,9 +10,10 @@ Use [this link](http://127.0.0.1:5500/drawmatic/dist/index.html?model=mediapipe_
 
 ## TODO
 
+1. Only draw when index and middle finger raised together
+   1. Detect this case
 1. Draw path of index finger
 1. Add buttons to export image
-1. Only draw when index and middle finger raised together
 1. Do some design stuff
 
 ## Notes

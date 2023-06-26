@@ -8,39 +8,33 @@ import * as handdetection from '@tensorflow-models/hand-pose-detection';
 import { Camera } from './camera';
 import { setupDatGui } from './option_panel';
 import { STATE } from './util/params';
-import { setupStats } from './util/stats_panel';
 import { setBackendAndEnvFlags } from './util/util';
 
 tfjsWasm.setWasmPaths(
   `https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@${tfjsWasm.version_wasm}/dist/`
 );
 
-let detector, camera, stats;
+let detector, camera;
 let startInferenceTime,
   numInferences = 0;
 let inferenceTimeSum = 0,
   lastPanelUpdate = 0;
 let rafId;
 
+const modelConfig = {
+  runtime: 'mediapipe',
+  model: 'MediaPipeHands',
+  modelType: 'full',
+  maxNumHands: 1,
+};
+
 async function createDetector() {
-  switch (STATE.model) {
-    case handdetection.SupportedModels.MediaPipeHands:
-      const runtime = STATE.backend.split('-')[0];
-      if (runtime === 'mediapipe') {
-        return handdetection.createDetector(STATE.model, {
-          runtime,
-          modelType: STATE.modelConfig.type,
-          maxHands: STATE.modelConfig.maxNumHands,
-          solutionPath: `https://cdn.jsdelivr.net/npm/@mediapipe/hands@${mpHands.VERSION}`,
-        });
-      } else if (runtime === 'tfjs') {
-        return handdetection.createDetector(STATE.model, {
-          runtime,
-          modelType: STATE.modelConfig.type,
-          maxHands: STATE.modelConfig.maxNumHands,
-        });
-      }
-  }
+  return handdetection.createDetector(modelConfig.model, {
+    runtime: modelConfig.runtime,
+    modelType: modelConfig.type,
+    maxHands: modelConfig.maxNumHands,
+    solutionPath: `https://cdn.jsdelivr.net/npm/@mediapipe/hands@${mpHands.VERSION}`,
+  });
 }
 
 async function checkGuiUpdate() {
@@ -76,28 +70,6 @@ async function checkGuiUpdate() {
   }
 }
 
-function beginEstimateHandsStats() {
-  startInferenceTime = (performance || Date).now();
-}
-
-function endEstimateHandsStats() {
-  const endInferenceTime = (performance || Date).now();
-  inferenceTimeSum += endInferenceTime - startInferenceTime;
-  ++numInferences;
-
-  const panelUpdateMilliseconds = 1000;
-  if (endInferenceTime - lastPanelUpdate >= panelUpdateMilliseconds) {
-    const averageInferenceTime = inferenceTimeSum / numInferences;
-    inferenceTimeSum = 0;
-    numInferences = 0;
-    stats.customFpsPanel.update(
-      1000.0 / averageInferenceTime,
-      120 /* maxValue */
-    );
-    lastPanelUpdate = endInferenceTime;
-  }
-}
-
 async function renderResult() {
   if (camera.video.readyState < 2) {
     await new Promise((resolve) => {
@@ -112,9 +84,6 @@ async function renderResult() {
   // Detector can be null if initialization failed (for example when loading
   // from a URL that does not exist).
   if (detector != null) {
-    // FPS only counts the time it takes to finish estimateHands.
-    beginEstimateHandsStats();
-
     // Detectors can throw errors, for example when using custom URLs that
     // contain a model that doesn't provide the expected output.
     try {
@@ -126,8 +95,6 @@ async function renderResult() {
       detector = null;
       alert(error);
     }
-
-    endEstimateHandsStats();
   }
 
   camera.drawCtx();
@@ -138,6 +105,8 @@ async function renderResult() {
   if (hands && hands.length > 0 && !STATE.isModelChanged) {
     camera.drawResults(hands);
   }
+
+  // TODO:
 }
 
 async function renderPrediction() {
@@ -159,8 +128,6 @@ async function app() {
   }
 
   await setupDatGui(urlParams);
-
-  stats = setupStats();
 
   camera = await Camera.setupCamera(STATE.camera);
 
