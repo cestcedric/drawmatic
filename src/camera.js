@@ -18,7 +18,6 @@ import * as scatter from 'scatter-gl';
 
 import * as params from './util/params';
 import { isMobile } from './util/util';
-import { distSquared } from '@tensorflow/tfjs-core/dist/util_base';
 
 // These anchor points allow the hand pointcloud to resize according to its
 // position in the input.
@@ -150,7 +149,7 @@ export class Camera {
 
     // TODO: draw line between last and current position
     // TODO: detect when index and middle finger raised together
-    if (this.detectDrawing(hands[0])) {
+    if (this.activated(hands[0])) {
       console.log('drawing!');
     } else {
       console.log('huh');
@@ -244,20 +243,19 @@ export class Camera {
   }
 
   /**
-   * Detects whether both index and middle finger are raised together or not
+   * Detects thumb and index finger form a pinch
    * @param hand A hand with keypoints to use to detect
    */
-  detectDrawing(hand) {
+  activated(hand) {
     if (hand.keypoints != null) {
       const fingertips = this.distSquared(
-        hand.keypoints[8],
-        hand.keypoints[12]
+        hand.keypoints[4], // thumb
+        hand.keypoints[8] // index
       );
-      const fingerdips = this.distSquared(
-        hand.keypoints[7],
-        hand.keypoints[11]
-      );
-      const ratio = fingertips / fingerdips;
+
+      // pinch = thumb tip closer to index tip than first thumb segment long
+      const thumbSize = this.distSquared(hand.keypoints[4], hand.keypoints[3]);
+      const ratio = fingertips / thumbSize;
 
       if (ratio < 1.1) {
         return true;
