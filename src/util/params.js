@@ -90,3 +90,13 @@ export const TUNABLE_FLAG_NAME_MAP = {
   WEBGL_RENDER_FLOAT32_CAPABLE: 'enable float32',
   WEBGL_FLUSH_THRESHOLD: 'GL flush wait time(ms)',
 };
+
+/**
+ * Hardcode best quality config, we have enough power
+ */
+export const DEFAULT_CONFIG = {
+  runtime: 'mediapipe',
+  model: 'MediaPipeHands',
+  modelType: 'full',
+  maxNumHands: 1,
+};
