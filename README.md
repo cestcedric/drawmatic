@@ -12,7 +12,7 @@ Use [this link](http://127.0.0.1:5500/dist/index.html?model=mediapipe_hands) to 
 
 ### v1
 
-1. Get rid of Google parameters, stats
+1. Get rid of Google parameters, stats ✔
 1. Detect when thumb and index finger pinching ✔
 1. Draw path of index finger when pinching
 1. Add buttons to export image

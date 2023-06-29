@@ -15,9 +15,7 @@
  * =============================================================================
  */
 import * as scatter from 'scatter-gl';
-
 import * as params from './util/params';
-import { isMobile } from './util/util';
 
 // These anchor points allow the hand pointcloud to resize according to its
 // position in the input.
@@ -64,6 +62,7 @@ export class Camera {
     this.video = document.getElementById('video');
     this.canvas = document.getElementById('output');
     this.ctx = this.canvas.getContext('2d');
+    this.path = []; // TODO: probably save path with color at that moment
   }
 
   /**
@@ -85,10 +84,8 @@ export class Camera {
         facingMode: 'user',
         // Only setting the video to a specified size for large screen, on
         // mobile devices accept the default size.
-        width: isMobile() ? params.VIDEO_SIZE['360 X 270'].width : $size.width,
-        height: isMobile()
-          ? params.VIDEO_SIZE['360 X 270'].height
-          : $size.height,
+        width: $size.width,
+        height: $size.height,
         frameRate: {
           ideal: targetFPS,
         },
@@ -145,50 +142,37 @@ export class Camera {
    * @param hands A list of hands to render.
    */
   drawResults(hands) {
-    this.drawResult(hands[0]);
+    // Hand pinching?
+    const activated = this.activated(hands[0]);
 
-    // TODO: draw line between last and current position
-    // TODO: detect when index and middle finger raised together
-    if (this.activated(hands[0])) {
-      console.log('drawing!');
-    } else {
-      console.log('huh');
+    // Draw pointer = index tip
+    if (hands[0].keypoints != null) {
+      this.drawPointer(hands[0].keypoints, activated);
     }
+
+    // Save + draw path
+    // this.drawPath(points, false);
   }
 
   /**
-   * Draw the keypoints on the video.
-   * @param hand A hand with keypoints to render.
-   */
-  drawResult(hand) {
-    if (hand.keypoints != null) {
-      this.drawKeypoints(hand.keypoints, hand.handedness);
-    }
-  }
-
-  /**
-   * Draw the keypoints on the video.
+   * Draw the pointer on the video, i.e. the
    * @param keypoints A list of keypoints.
-   * @param handedness Label of hand (either Left or Right).
    */
-  drawKeypoints(keypoints, handedness) {
+  drawPointer(keypoints, activated) {
     const keypointsArray = keypoints;
-    this.ctx.fillStyle = handedness === 'Left' ? 'Red' : 'Blue';
+    this.ctx.fillStyle = 'White'; // TODO: color picker
     this.ctx.strokeStyle = 'White';
     this.ctx.lineWidth = params.DEFAULT_LINE_WIDTH;
 
-    for (let i = 0; i < keypointsArray.length; i++) {
-      const y = keypointsArray[i].x;
-      const x = keypointsArray[i].y;
-      this.drawPoint(x - 2, y - 2, 3);
-    }
+    // Flip because camera is mirrored
+    const y = activated
+      ? (keypointsArray[4].x + keypointsArray[8].x) / 2
+      : keypointsArray[8].x;
+    const x = activated
+      ? (keypointsArray[4].y + keypointsArray[8].y) / 2
+      : keypointsArray[8].y;
 
-    const fingers = Object.keys(fingerLookupIndices);
-    for (let i = 0; i < fingers.length; i++) {
-      const finger = fingers[i];
-      const points = fingerLookupIndices[finger].map((idx) => keypoints[idx]);
-      this.drawPath(points, false);
-    }
+    this.drawPoint(x - 2, y - 2, 5, activated);
   }
 
   drawPath(points, closePath) {
@@ -205,10 +189,14 @@ export class Camera {
     this.ctx.stroke(region);
   }
 
-  drawPoint(y, x, r) {
+  drawPoint(y, x, r, activated) {
     this.ctx.beginPath();
     this.ctx.arc(x, y, r, 0, 2 * Math.PI);
-    this.ctx.fill();
+    if (activated) {
+      this.ctx.fill();
+    } else {
+      this.ctx.stroke();
+    }
   }
 
   drawKeypoints3D(keypoints, handedness, ctxt) {

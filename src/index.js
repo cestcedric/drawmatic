@@ -1,10 +1,7 @@
 import '@tensorflow/tfjs-backend-webgl';
 import * as mpHands from '@mediapipe/hands';
-
 import * as tfjsWasm from '@tensorflow/tfjs-backend-wasm';
-
 import * as handdetection from '@tensorflow-models/hand-pose-detection';
-
 import { Camera } from './camera';
 import { DEFAULT_CONFIG, STATE } from './util/params';
 import { setBackendAndEnvFlags } from './util/util';
