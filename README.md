@@ -8,7 +8,7 @@ Draw images using nothing but your webcam and fingers!
 
 Use [this link](http://127.0.0.1:5500/dist/index.html?model=mediapipe_hands) to access the locally deployed page.
 
-## TODO
+## Roadmap
 
 ### v1
 
@@ -24,9 +24,11 @@ Use [this link](http://127.0.0.1:5500/dist/index.html?model=mediapipe_hands) to 
 
 1. Line color
 1. Stroke width
+1. Hide draw pointer when taking snapshot
 
 ### v3
 
+1. Easter egg: make peace sign to take snapshot
 1. Train dedicated model for pinch recognition, might be faster
 1. Light mode / dark mode
 
