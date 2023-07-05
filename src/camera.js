@@ -142,45 +142,84 @@ export class Camera {
    * @param hands A list of hands to render.
    */
   drawResults(hands) {
-    // Hand pinching?
-    const activated = this.activated(hands[0]);
-
     // Draw pointer = index tip
-    if (hands[0].keypoints != null) {
-      this.drawPointer(hands[0].keypoints, activated);
+    if (hands != null && hands[0] != null && hands[0].keypoints != null) {
+      const pointer = this.getPointer(hands[0].keypoints);
+      this.drawPointer(pointer);
+      this.path.push(pointer);
     }
 
-    // Save + draw path
-    // this.drawPath(points, false);
+    // Draw path
+    this.drawPath(false);
   }
 
   /**
-   * Draw the pointer on the video, i.e. the
-   * @param keypoints A list of keypoints.
+   * Computes pointer position
+   *
+   * TODO: add color info to pointer object
+   *
+   * @param {*} keypoints Keypoints of a hand
+   * @returns
    */
-  drawPointer(keypoints, activated) {
-    const keypointsArray = keypoints;
-    this.ctx.fillStyle = 'White'; // TODO: color picker
-    this.ctx.strokeStyle = 'White';
-    this.ctx.lineWidth = params.DEFAULT_LINE_WIDTH;
+  getPointer(keypoints) {
+    // Hand pinching?
+    const activated = this.activated(keypoints);
 
-    // Flip because camera is mirrored
-    const y = activated
-      ? (keypointsArray[4].x + keypointsArray[8].x) / 2
-      : keypointsArray[8].x;
+    // Position
     const x = activated
-      ? (keypointsArray[4].y + keypointsArray[8].y) / 2
-      : keypointsArray[8].y;
+      ? (keypoints[4].x + keypoints[8].x) / 2
+      : keypoints[8].x;
+    const y = activated
+      ? (keypoints[4].y + keypoints[8].y) / 2
+      : keypoints[8].y;
 
-    this.drawPoint(x - 2, y - 2, 5, activated);
+    // Color and width info
+    // TODO: connect to some frontend choice mechanism
+
+    const color = 'White';
+    const lineWidth = params.DEFAULT_LINE_WIDTH;
+
+    return { x, y, activated, color, lineWidth };
   }
 
-  drawPath(points, closePath) {
+  /**
+   * Draw the pointer on the video, i.e. the point where thumb and index touch.
+   *
+   * Returns an object containing pointer info.
+   *
+   * @param keypoints A list of keypoints.
+   */
+  drawPointer(pointer) {
+    this.ctx.fillStyle = pointer.color;
+    this.ctx.strokeStyle = pointer.color;
+    this.ctx.lineWidth = pointer.lineWidth;
+
+    // Flip because camera is mirrored
+    this.drawPoint(pointer.x - 2, pointer.y - 2, 5, pointer.activated);
+  }
+
+  /**
+   * Draws path of fingers when pinched
+   *
+   * @param {*} closePath close path (default = false)
+   */
+  drawPath(closePath) {
     const region = new Path2D();
-    region.moveTo(points[0].x, points[0].y);
-    for (let i = 1; i < points.length; i++) {
-      const point = points[i];
-      region.lineTo(point.x, point.y);
+
+    if (this.path.length === 0) {
+      return;
+    }
+
+    region.moveTo(this.path[0].x, this.path[0].y);
+
+    for (let i = 1; i < this.path.length; i++) {
+      const point = this.path[i];
+
+      if (point.activated) {
+        region.lineTo(point.x, point.y);
+      } else {
+        region.moveTo(point.x, point.y);
+      }
     }
 
     if (closePath) {
@@ -189,7 +228,7 @@ export class Camera {
     this.ctx.stroke(region);
   }
 
-  drawPoint(y, x, r, activated) {
+  drawPoint(x, y, r, activated) {
     this.ctx.beginPath();
     this.ctx.arc(x, y, r, 0, 2 * Math.PI);
     if (activated) {
@@ -234,15 +273,15 @@ export class Camera {
    * Detects thumb and index finger form a pinch
    * @param hand A hand with keypoints to use to detect
    */
-  activated(hand) {
-    if (hand.keypoints != null) {
+  activated(keypoints) {
+    if (keypoints != null) {
       const fingertips = this.distSquared(
-        hand.keypoints[4], // thumb
-        hand.keypoints[8] // index
+        keypoints[4], // thumb
+        keypoints[8] // index
       );
 
       // pinch = thumb tip closer to index tip than first thumb segment long
-      const thumbSize = this.distSquared(hand.keypoints[4], hand.keypoints[3]);
+      const thumbSize = this.distSquared(keypoints[4], keypoints[3]);
       const ratio = fingertips / thumbSize;
 
       if (ratio < 1.1) {

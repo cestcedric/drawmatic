@@ -51,14 +51,7 @@ async function renderResult() {
 
   camera.drawCtx();
 
-  // The null check makes sure the UI is not in the middle of changing to a
-  // different model. If during model change, the result is from an old model,
-  // which shouldn't be rendered.
-  if (hands && hands.length > 0) {
-    camera.drawResults(hands);
-  }
-
-  // TODO:
+  camera.drawResults(hands);
 }
 
 async function renderPrediction() {
