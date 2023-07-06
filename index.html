@@ -11,36 +11,42 @@ limitations under the License.
 ==============================================================================-->
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0, user-scalable=no">
-  <link rel="stylesheet" href="styles.css">
-  <title>drawmatic</title>
-</head>
-<body>
-  <h1 class="centered">Welcome to drawmatic!</h1>
-  <div id="stats"></div>
-  <div id="main" class="centered">
-    <div class="container">
-      <div class="canvas-wrapper">
-        <canvas id="output"></canvas>
-        <video id="video" playsinline style="
-          -webkit-transform: scaleX(-1);
-          transform: scaleX(-1);
-          visibility: hidden;
-          width: auto;
-          height: auto;
-          ">
-        </video>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1.0, user-scalable=no"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <title>drawmatic</title>
+  </head>
+  <body>
+    <h1 class="centered">Welcome to drawmatic!</h1>
+    <div id="main" class="centered">
+      <div class="container">
+        <!-- TODO: show loading animation as default -->
+        <div class="canvas-wrapper">
+          <canvas id="output"></canvas>
+          <video
+            id="video"
+            playsinline
+            style="
+              -webkit-transform: scaleX(-1);
+              transform: scaleX(-1);
+              visibility: hidden;
+              width: auto;
+              height: auto;
+            "
+          ></video>
+        </div>
       </div>
-      <div id="scatter-gl-container-left"></div>
+      <div>
+        <button id="snap">Snap!</button>
       </div>
-      <div id="scatter-gl-container-right"></div>
+      <div id="gallery"></div>
     </div>
-  </div>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.6/dat.gui.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
-<script src="src/index.js"></script>
-
+  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.6/dat.gui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
+  <script src="src/index.js"></script>
 </html>

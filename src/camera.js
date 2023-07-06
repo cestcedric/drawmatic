@@ -14,7 +14,6 @@
  * limitations under the License.
  * =============================================================================
  */
-import * as scatter from 'scatter-gl';
 import * as params from './util/params';
 
 // These anchor points allow the hand pointcloud to resize according to its
@@ -62,7 +61,8 @@ export class Camera {
     this.video = document.getElementById('video');
     this.canvas = document.getElementById('output');
     this.ctx = this.canvas.getContext('2d');
-    this.path = []; // TODO: probably save path with color at that moment
+    this.path = [];
+    this.gallery = document.getElementById('gallery');
   }
 
   /**
@@ -236,37 +236,6 @@ export class Camera {
     } else {
       this.ctx.stroke();
     }
-  }
-
-  drawKeypoints3D(keypoints, handedness, ctxt) {
-    const scoreThreshold = params.STATE.modelConfig.scoreThreshold || 0;
-    const pointsData = keypoints.map((keypoint) => [
-      -keypoint.x,
-      -keypoint.y,
-      -keypoint.z,
-    ]);
-
-    const dataset = new scatter.ScatterGL.Dataset([
-      ...pointsData,
-      ...ANCHOR_POINTS,
-    ]);
-
-    ctxt.scatterGL.setPointColorer((i) => {
-      if (keypoints[i] == null || keypoints[i].score < scoreThreshold) {
-        // hide anchor points and low-confident points.
-        return '#ffffff';
-      }
-      return handedness === 'Left' ? '#ff0000' : '#0000ff';
-    });
-
-    if (!ctxt.scatterGLHasInitialized) {
-      ctxt.scatterGL.render(dataset);
-    } else {
-      ctxt.scatterGL.updateDataset(dataset);
-    }
-    const sequences = connections.map((pair) => ({ indices: pair }));
-    ctxt.scatterGL.setSequences(sequences);
-    ctxt.scatterGLHasInitialized = true;
   }
 
   /**

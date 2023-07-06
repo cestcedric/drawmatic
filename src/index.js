@@ -5,6 +5,7 @@ import * as handdetection from '@tensorflow-models/hand-pose-detection';
 import { Camera } from './camera';
 import { DEFAULT_CONFIG, STATE } from './util/params';
 import { setBackendAndEnvFlags } from './util/util';
+import { image } from '@tensorflow/tfjs-core';
 
 tfjsWasm.setWasmPaths(
   `https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@${tfjsWasm.version_wasm}/dist/`
@@ -59,12 +60,26 @@ async function renderPrediction() {
   rafId = requestAnimationFrame(renderPrediction);
 }
 
+async function takeSnapshot() {
+  console.log('Oh snap!');
+  const canvas = document.getElementById('output');
+  console.log(canvas);
+  const dataUrl = canvas.toDataURL('image/jpeg');
+  const gallery = document.getElementById('gallery');
+  const image = document.createElement('img');
+  image.src = dataUrl;
+  gallery.appendChild(image);
+}
+
 async function app() {
   console.log('Loading...');
 
   camera = await Camera.setupCamera(STATE.camera);
   await setBackendAndEnvFlags(STATE.flags, STATE.backend);
   detector = await createDetector();
+
+  // connect buttons
+  document.getElementById('snap').onclick = takeSnapshot;
 
   renderPrediction();
 

@@ -15,7 +15,8 @@ Use [this link](http://127.0.0.1:5500/dist/index.html?model=mediapipe_hands) to 
 1. Get rid of Google parameters, stats ✔
 1. Detect when thumb and index finger pinching ✔
 1. Draw path of index finger when pinching ✔
-1. Add buttons to export image
+1. Add button to export image ✔
+1. Line smoothing (average over last n points)
 1. Do some design stuff
    1. Probably with bootstrap
    1. Add icon
