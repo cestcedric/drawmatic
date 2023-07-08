@@ -18,6 +18,7 @@ import * as handdetection from '@tensorflow-models/hand-pose-detection';
 
 export const DEFAULT_LINE_WIDTH = 4;
 export const DEFAULT_RADIUS = 4;
+export const DEFAULT_SMOOTHING = 1;
 
 export const VIDEO_SIZE = {
   '640 X 480': { width: 640, height: 480 },

@@ -180,7 +180,15 @@ export class Camera {
     const color = 'White';
     const lineWidth = params.DEFAULT_LINE_WIDTH;
 
-    return { x, y, activated, color, lineWidth };
+    return { ...this.smoothen(x, y), activated, color, lineWidth };
+  }
+
+  smoothen(x, y) {
+    const prePath = this.path.slice(-params.DEFAULT_SMOOTHING);
+    const sumX = x + prePath.reduce((acc, point) => acc + point.x, 0);
+    const sumY = y + prePath.reduce((acc, point) => acc + point.y, 0);
+    const weight = prePath.length + 1;
+    return { x: sumX / weight, y: sumY / weight };
   }
 
   /**
