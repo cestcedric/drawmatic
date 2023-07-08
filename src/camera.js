@@ -15,6 +15,7 @@
  * =============================================================================
  */
 import * as params from './util/params';
+import { distSquared } from './util/util';
 
 // These anchor points allow the hand pointcloud to resize according to its
 // position in the input.
@@ -150,7 +151,7 @@ export class Camera {
     }
 
     // Draw path
-    this.drawPath(false);
+    this.drawPath();
   }
 
   /**
@@ -203,7 +204,7 @@ export class Camera {
    *
    * @param {*} closePath close path (default = false)
    */
-  drawPath(closePath) {
+  drawPath(closePath = false) {
     const region = new Path2D();
 
     if (this.path.length === 0) {
@@ -244,13 +245,13 @@ export class Camera {
    */
   activated(keypoints) {
     if (keypoints != null) {
-      const fingertips = this.distSquared(
+      const fingertips = distSquared(
         keypoints[4], // thumb
         keypoints[8] // index
       );
 
       // pinch = thumb tip closer to index tip than first thumb segment long
-      const thumbSize = this.distSquared(keypoints[4], keypoints[3]);
+      const thumbSize = distSquared(keypoints[4], keypoints[3]);
       const ratio = fingertips / thumbSize;
 
       if (ratio < 1.1) {
@@ -260,7 +261,13 @@ export class Camera {
     return false;
   }
 
-  distSquared(a, b) {
-    return (a.x - b.x) ** 2 + (a.y - b.y) ** 2;
+  async takeSnapshot() {
+    console.log('Oh snap!');
+    const canvas = document.getElementById('output');
+    const dataUrl = canvas.toDataURL('image/jpeg');
+    const gallery = document.getElementById('gallery');
+    const image = document.createElement('img');
+    image.src = dataUrl;
+    gallery.appendChild(image);
   }
 }

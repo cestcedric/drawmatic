@@ -30,6 +30,16 @@ export function isMobile() {
 }
 
 /**
+ * Returns the Euclidean distance between two points
+ * @param {x, y} a one point
+ * @param {x, y} b the other point
+ * @returns
+ */
+export function distSquared(a, b) {
+  return (a.x - b.x) ** 2 + (a.y - b.y) ** 2;
+}
+
+/**
  * Reset the target backend.
  *
  * @param backendName The name of the backend to be reset.

@@ -63,7 +63,6 @@ async function renderPrediction() {
 async function takeSnapshot() {
   console.log('Oh snap!');
   const canvas = document.getElementById('output');
-  console.log(canvas);
   const dataUrl = canvas.toDataURL('image/jpeg');
   const gallery = document.getElementById('gallery');
   const image = document.createElement('img');
@@ -79,7 +78,7 @@ async function app() {
   detector = await createDetector();
 
   // connect buttons
-  document.getElementById('snap').onclick = takeSnapshot;
+  document.getElementById('snap').onclick = camera.takeSnapshot;
 
   renderPrediction();
 
