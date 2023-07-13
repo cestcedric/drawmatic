@@ -151,7 +151,7 @@ export class Camera {
     }
 
     // Draw path
-    this.drawPath();
+    this.drawPath(this.ctx);
   }
 
   /**
@@ -199,9 +199,7 @@ export class Camera {
    * @param keypoints A list of keypoints.
    */
   drawPointer(pointer) {
-    this.ctx.fillStyle = pointer.color;
-    this.ctx.strokeStyle = pointer.color;
-    this.ctx.lineWidth = pointer.lineWidth;
+    Camera.setDrawingAttributes(this.ctx, pointer);
 
     // Flip because camera is mirrored
     this.drawPoint(pointer.x - 2, pointer.y - 2, 5, pointer.activated);
@@ -212,7 +210,7 @@ export class Camera {
    *
    * @param {*} closePath close path (default = false)
    */
-  drawPath(closePath = false) {
+  drawPath(ctx, closePath = false) {
     const region = new Path2D();
 
     if (this.path.length === 0) {
@@ -222,19 +220,20 @@ export class Camera {
     region.moveTo(this.path[0].x, this.path[0].y);
 
     for (let i = 1; i < this.path.length; i++) {
-      const point = this.path[i];
+      const pointer = this.path[i];
+      Camera.setDrawingAttributes(ctx, pointer);
 
-      if (point.activated) {
-        region.lineTo(point.x, point.y);
+      if (pointer.activated) {
+        region.lineTo(pointer.x, pointer.y);
       } else {
-        region.moveTo(point.x, point.y);
+        region.moveTo(pointer.x, pointer.y);
       }
     }
 
     if (closePath) {
       region.closePath();
     }
-    this.ctx.stroke(region);
+    ctx.stroke(region);
   }
 
   drawPoint(x, y, r, activated) {
@@ -269,13 +268,40 @@ export class Camera {
     return false;
   }
 
-  async takeSnapshot() {
+  /**
+   * Draws frame to new canvas to hide pointer
+   */
+  static takeSnapshot = (camera) => async () => {
     console.log('Oh snap!');
-    const canvas = document.getElementById('output');
+    const canvas = camera.canvas.cloneNode(true);
+    const ctx = canvas.getContext('2d');
+    ctx.translate(camera.video.videoWidth, 0);
+    ctx.scale(-1, 1);
+
+    ctx.drawImage(
+      camera.video,
+      0,
+      0,
+      camera.video.videoWidth,
+      camera.video.videoHeight
+    );
+    camera.drawPath(ctx);
+
     const dataUrl = canvas.toDataURL('image/jpeg');
     const gallery = document.getElementById('gallery');
     const image = document.createElement('img');
     image.src = dataUrl;
     gallery.appendChild(image);
+  };
+
+  static resetPath = (camera) => async () => {
+    console.log("It's rewind time!");
+    camera.path = [];
+  };
+
+  static setDrawingAttributes(ctx, pointer) {
+    ctx.fillStyle = pointer.color;
+    ctx.strokeStyle = pointer.color;
+    ctx.lineWidth = pointer.lineWidth;
   }
 }

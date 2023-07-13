@@ -17,14 +17,14 @@ Use [this link](http://127.0.0.1:5500/dist/index.html?model=mediapipe_hands) to 
 1. Draw path of index finger when pinching ✔
 1. Add button to export image ✔
 1. Line smoothing ✔
+1. Button to reset image = delete path ✔
+1. Hide draw pointer when taking snapshot ✔
 1. Do some design stuff
    1. Probably with bootstrap
    1. Add icon
 
 ### v2
 
-1. Button to reset image = delete path
-1. Hide draw pointer when taking snapshot
 1. Line color
 1. Stroke width
 
