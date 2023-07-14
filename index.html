@@ -55,7 +55,7 @@ limitations under the License.
     <title>Drawmatic</title>
   </head>
   <body>
-    <nav class="navbar navbar-dark bg-primary">
+    <nav class="navbar sticky-top navbar-dark bg-primary">
       <a class="navbar-brand" href="#">
         <img
           src="img/favicon-32x32.png"
@@ -68,29 +68,32 @@ limitations under the License.
         Drawmatic
       </a>
     </nav>
-    <div id="main" class="centered">
-      <div class="container">
+    <div class="row">
+      <div class="col">
         <!-- TODO: show loading animation as default -->
-        <div class="canvas-wrapper">
-          <canvas id="output"></canvas>
-          <video
-            id="video"
-            playsinline
-            style="
-              -webkit-transform: scaleX(-1);
-              transform: scaleX(-1);
-              visibility: hidden;
-              width: auto;
-              height: auto;
-            "
-          ></video>
+        <div class="container">
+          <div class="canvas-wrapper">
+            <canvas centered id="output"></canvas>
+            <video
+              id="video"
+              playsinline
+              style="
+                -webkit-transform: scaleX(-1);
+                transform: scaleX(-1);
+                visibility: hidden;
+                width: auto;
+                height: auto;
+              "
+            ></video>
+          </div>
+          <div>
+            <button id="snap">Snap!</button> <button id="reset">Reset</button>
+          </div>
         </div>
       </div>
-      <div>
-        <button id="snap">Snap!</button>
-        <button id="reset">Reset</button>
+      <div class="col">
+        <div id="gallery"></div>
       </div>
-      <div id="gallery"></div>
     </div>
   </body>
   <script src="src/index.js"></script>
