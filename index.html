@@ -33,11 +33,41 @@ limitations under the License.
       name="viewport"
       content="width=device-width,initial-scale=1,maximum-scale=1.0, user-scalable=no"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="img/favicon-32x32.png"
+      sizes="32x32"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="img/favicon-16x16.png"
+      sizes="16x16"
+    />
     <link rel="stylesheet" href="styles.css" />
-    <title>drawmatic</title>
+    <title>Drawmatic</title>
   </head>
   <body>
-    <h1 class="centered">Welcome to drawmatic!</h1>
+    <nav class="navbar navbar-dark bg-primary">
+      <a class="navbar-brand" href="#">
+        <img
+          src="img/favicon-32x32.png"
+          width="30"
+          height="30"
+          class="d-inline-block align-top"
+          alt=""
+        />
+
+        Drawmatic
+      </a>
+    </nav>
     <div id="main" class="centered">
       <div class="container">
         <!-- TODO: show loading animation as default -->
@@ -63,7 +93,5 @@ limitations under the License.
       <div id="gallery"></div>
     </div>
   </body>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.6/dat.gui.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
   <script src="src/index.js"></script>
 </html>

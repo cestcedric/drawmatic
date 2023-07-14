@@ -21,7 +21,7 @@ Use [this link](http://127.0.0.1:5500/dist/index.html?model=mediapipe_hands) to 
 1. Hide draw pointer when taking snapshot ✔
 1. Do some design stuff
    1. Probably with bootstrap
-   1. Add icon
+   1. Add icon ✔
 
 ### v2
 
