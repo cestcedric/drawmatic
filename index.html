@@ -69,7 +69,8 @@ limitations under the License.
       </a>
     </nav>
     <div class="row">
-      <div class="col">
+      <div class="col-lg-1"></div>
+      <div class="col-lg-4">
         <!-- TODO: show loading animation as default -->
         <div class="container">
           <div class="canvas-wrapper">
@@ -86,14 +87,21 @@ limitations under the License.
               "
             ></video>
           </div>
-          <div>
-            <button id="snap">Snap!</button> <button id="reset">Reset</button>
+          <div class="d-flex justify-content-around">
+            <button id="snap" class="btn btn-lg btn-success" style="width: 50%">
+              Snap!
+            </button>
+            <button id="reset" class="btn btn-lg btn-danger" style="width: 50%">
+              Reset
+            </button>
           </div>
         </div>
       </div>
-      <div class="col">
+      <div class="col-lg-2"></div>
+      <div class="col-lg-4">
         <div id="gallery"></div>
       </div>
+      <div class="col-lg-1"></div>
     </div>
   </body>
   <script src="src/index.js"></script>
