@@ -75,48 +75,60 @@ limitations under the License.
     <!-- Actual content -->
     <div class="container-fluid">
       <div class="row">
-        <div class="red col">
-          <div class="blue media-column">
-            <div class="row">
-              <div class="green col mt-3 border">
-                <!-- TODO: show loading animation as default -->
-                <!-- Camera feed + canvas -->
-                <div class="container mt-3">
-                  <h4>Drawing board</h4>
-                  <hr />
-                  <div class="canvas-wrapper mt-3">
-                    <canvas centered id="output"></canvas>
-                    <video
-                      id="video"
-                      playsinline
-                      style="
-                        -webkit-transform: scaleX(-1);
-                        transform: scaleX(-1);
-                        visibility: hidden;
-                        width: auto;
-                        height: auto;
-                      "
-                    ></video>
-                  </div>
+        <div class="col">
+          <div class="d-flex justify-content-center">
+            <div class="media-column">
+              <div class="row">
+                <div class="col mt-3 border">
+                  <!-- TODO: show loading animation as default -->
+                  <!-- Camera feed + canvas -->
+                  <div class="container mt-3">
+                    <h4>Drawing board</h4>
+                    <hr />
+                    <div class="canvas-wrapper mt-3">
+                      <canvas centered id="output"></canvas>
+                      <video
+                        id="video"
+                        playsinline
+                        style="
+                          -webkit-transform: scaleX(-1);
+                          transform: scaleX(-1);
+                          visibility: hidden;
+                          width: auto;
+                          height: auto;
+                        "
+                      ></video>
+                    </div>
 
-                  <!-- Buttons to snap screenshot and reset drawing -->
-                  <div class="d-flex justify-content-between mt-3">
-                    <button
-                      id="snap"
-                      class="btn btn-lg btn-success"
-                      style="width: 45%"
-                    >
-                      Snap!
-                    </button>
-                    <button
-                      id="reset"
-                      class="btn btn-lg btn-danger"
-                      style="width: 45%"
-                    >
-                      Reset
-                    </button>
+                    <!-- Buttons to snap screenshot and reset drawing -->
+                    <div class="d-flex justify-content-between mt-3 mb-3">
+                      <button
+                        id="snap"
+                        class="btn btn-lg btn-success"
+                        style="width: 45%"
+                      >
+                        Snap!
+                      </button>
+                      <button
+                        id="reset"
+                        class="btn btn-lg btn-danger"
+                        style="width: 45%"
+                      >
+                        Reset
+                      </button>
+                    </div>
                   </div>
-
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="d-flex justify-content-center">
+            <div class="media-column">
+              <div class="row">
+                <div class="col mt-3 border">
+                  <!-- TODO: figure out collapsable or move to toast -->
                   <!-- User guide -->
                   <div class="card mt-3 mb-3">
                     <div class="card-body">
@@ -137,20 +149,12 @@ limitations under the License.
                       Enjoy!
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="blue col">
-          <div class="media-column">
-            <div class="row">
-              <div class="yellow col mt-3 border">
-                <!-- Gallery containing snapshots -->
-                <div class="container mt-3">
-                  <h4>Gallery</h4>
-                  <hr />
-                  <div centered id="gallery" class="mt-3"></div>
+                  <!-- Gallery containing snapshots -->
+                  <div class="container mt-3">
+                    <h4>Gallery</h4>
+                    <hr />
+                    <div centered id="gallery" class="mt-3"></div>
+                  </div>
                 </div>
               </div>
             </div>
