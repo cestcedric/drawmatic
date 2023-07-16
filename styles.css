@@ -36,3 +36,11 @@ limitations under the License.
   display: flex;
   justify-content: center;
 }
+
+.media-column {
+  -ms-flex: 0 0 640px;
+  flex: 0 0 640;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  background-color: greenyellow; /* TODO: remove color */
+}

@@ -68,11 +68,12 @@ limitations under the License.
         Drawmatic
       </a>
     </nav>
-    <div class="row">
+    <div class="row no-gutters">
       <div class="col-lg-1"></div>
-      <div class="col-lg-4">
+      <div class="col media-column">
         <!-- TODO: show loading animation as default -->
-        <div class="container">
+        <!-- Camera feed + canvas -->
+        <div class="container mt-3">
           <div class="canvas-wrapper">
             <canvas centered id="output"></canvas>
             <video
@@ -87,7 +88,9 @@ limitations under the License.
               "
             ></video>
           </div>
-          <div class="d-flex justify-content-around">
+
+          <!-- Buttons to snap screenshot and reset drawing -->
+          <div class="d-flex justify-content-around mt-3">
             <button id="snap" class="btn btn-lg btn-success" style="width: 50%">
               Snap!
             </button>
@@ -95,10 +98,32 @@ limitations under the License.
               Reset
             </button>
           </div>
+
+          <!-- User guide -->
+          <div class="card mt-3 mb-3">
+            <div class="card-body">
+              <h5 class="card-title">How to use</h5>
+              <p>
+                Make sure your camera is turned on (and give the permission to
+                use it).
+              </p>
+              <p>
+                Bring one hand into the frame, you should see a circle around
+                your index finger. Pinch index finger and thumb together 👌 to
+                start drawing (the circle will fill).
+              </p>
+              <p>
+                Click on "Snap!" to snap a picture, or use "Reset" to delete
+                your drawing and start over.
+              </p>
+              <p>Enjoy!</p>
+            </div>
+          </div>
         </div>
       </div>
       <div class="col-lg-2"></div>
-      <div class="col-lg-4">
+      <div class="col media-column">
+        <!-- Gallery containing snapshots -->
         <div id="gallery"></div>
       </div>
       <div class="col-lg-1"></div>
