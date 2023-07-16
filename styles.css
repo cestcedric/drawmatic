@@ -38,9 +38,21 @@ limitations under the License.
 }
 
 .media-column {
-  -ms-flex: 0 0 640px;
-  flex: 0 0 640;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  background-color: greenyellow; /* TODO: remove color */
+  width: 670px; /* Hardcoded video width + 2 * 15 pixels margin */
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: greenyellow;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.yellow {
+  background-color: yellow;
 }

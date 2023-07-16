@@ -306,10 +306,14 @@ export class Camera {
     camera.drawPath(ctx);
 
     const dataUrl = canvas.toDataURL('image/jpeg');
-    const gallery = document.getElementById('gallery');
     const image = document.createElement('img');
     image.src = dataUrl;
-    gallery.appendChild(image);
+
+    const div = document.createElement('div');
+    div.className = 'mb-3';
+    div.appendChild(image);
+
+    document.getElementById('gallery').appendChild(div);
   };
 
   static resetPath = (camera) => async () => {
