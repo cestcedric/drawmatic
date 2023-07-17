@@ -59,17 +59,23 @@ limitations under the License.
   <body class="background">
     <!-- Navigation -->
     <nav class="navbar sticky-top navbar-dark bg-primary">
-      <a class="navbar-brand" href="#">
-        <img
-          src="img/favicon-32x32.png"
-          width="30"
-          height="30"
-          class="d-inline-block align-top"
-          alt=""
-        />
-
-        Drawmatic
-      </a>
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img
+            src="img/favicon-32x32.png"
+            width="30"
+            height="30"
+            class="d-inline-block align-top"
+            alt=""
+          />
+          Drawmatic
+        </a>
+        <div class="navbar-nav">
+          <a class="nav-link active" aria-current="page" href="about.html"
+            >About</a
+          >
+        </div>
+      </div>
     </nav>
 
     <!-- Actual content -->
@@ -87,6 +93,14 @@ limitations under the License.
 
                     <hr />
                     <div class="canvas-wrapper mt-3">
+                      <div
+                        class="d-flex justify-content-center"
+                        id="placeholder"
+                      >
+                        <div class="spinner-border" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </div>
                       <canvas centered id="output"></canvas>
                       <video
                         id="video"

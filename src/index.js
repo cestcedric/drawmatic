@@ -83,6 +83,8 @@ async function renderResult() {
     }
   }
 
+  document.getElementById('placeholder')?.remove();
+
   camera.drawCtx();
 
   camera.drawResults(hands);

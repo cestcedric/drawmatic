@@ -11,9 +11,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-/* body {
-  margin: 0;
-} */
+:root {
+  --videoWidth: 640px;
+  --videoHeight: 480px;
+  --columnWidth: 670px; /* Video width + 2 * 15 pixels margin */
+}
 
 .row {
   display: flex;
@@ -38,7 +40,7 @@ limitations under the License.
 }
 
 .media-column {
-  width: 670px; /* Hardcoded video width + 2 * 15 pixels margin */
+  width: var(--columnWidth);
 }
 
 .red {

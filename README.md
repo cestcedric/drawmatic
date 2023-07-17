@@ -6,7 +6,7 @@ Draw images using nothing but your webcam and fingers!
 
 ## Link
 
-Use [this link](http://127.0.0.1:5500/dist/index.html?model=mediapipe_hands) to access the locally deployed page.
+Use [this link](http://127.0.0.1:5500/dist/) to access the locally deployed page.
 
 ## Roadmap
 
@@ -22,7 +22,7 @@ Use [this link](http://127.0.0.1:5500/dist/index.html?model=mediapipe_hands) to 
 1. Do some design stuff
    1. Probably with bootstrap ✔
    1. Add icon ✔
-   1. Add About section to navbar
+   1. Add "About" section to navbar ✔
 
 ### v2
 
