@@ -20,7 +20,7 @@ Use [this link](http://127.0.0.1:5500/dist/index.html?model=mediapipe_hands) to 
 1. Button to reset image = delete path ✔
 1. Hide draw pointer when taking snapshot ✔
 1. Do some design stuff
-   1. Probably with bootstrap
+   1. Probably with bootstrap ✔
    1. Add icon ✔
    1. Add About section to navbar
 
@@ -31,6 +31,8 @@ Use [this link](http://127.0.0.1:5500/dist/index.html?model=mediapipe_hands) to 
 
 ### v3
 
+1. Allow different camera sizes
+   1. https://css-tricks.com/updating-a-css-variable-with-javascript/
 1. Easter egg: make peace sign to take snapshot
 1. Train dedicated model for pinch recognition, might be faster
 1. Light mode / dark mode

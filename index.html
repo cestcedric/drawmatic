@@ -56,7 +56,7 @@ limitations under the License.
     <link rel="stylesheet" href="styles.css" />
     <title>Drawmatic</title>
   </head>
-  <body>
+  <body class="background">
     <!-- Navigation -->
     <nav class="navbar sticky-top navbar-dark bg-primary">
       <a class="navbar-brand" href="#">
@@ -79,11 +79,12 @@ limitations under the License.
           <div class="d-flex justify-content-center">
             <div class="media-column">
               <div class="row">
-                <div class="col mt-3 border">
+                <div class="col mt-3 border rounded white">
                   <!-- TODO: show loading animation as default -->
                   <!-- Camera feed + canvas -->
                   <div class="container mt-3">
                     <h4>Drawing board</h4>
+
                     <hr />
                     <div class="canvas-wrapper mt-3">
                       <canvas centered id="output"></canvas>
@@ -101,7 +102,7 @@ limitations under the License.
                     </div>
 
                     <!-- Buttons to snap screenshot and reset drawing -->
-                    <div class="d-flex justify-content-between mt-3 mb-3">
+                    <div class="d-flex justify-content-between mt-3">
                       <button
                         id="snap"
                         class="btn btn-lg btn-success"
@@ -117,6 +118,38 @@ limitations under the License.
                         Reset
                       </button>
                     </div>
+
+                    <!-- User guide -->
+                    <button
+                      class="btn btn-lg btn-outline-primary mt-3 mb-3"
+                      type="button"
+                      style="width: 100%"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#userguide"
+                      aria-expanded="false"
+                      aria-controls="userguide"
+                    >
+                      How to use?
+                    </button>
+                    <div class="collapse mb-3" id="userguide">
+                      <div class="card card-body">
+                        <h5 class="card-title">How to use</h5>
+                        <p>
+                          Make sure your camera is turned on (and give the
+                          permission to use it).
+                        </p>
+                        <p>
+                          Bring one hand into the frame, you should see a circle
+                          around your index finger. Pinch index finger and thumb
+                          together 👌 to start drawing (the circle will fill).
+                        </p>
+                        <p>
+                          Click on "Snap!" to snap a picture, or use "Reset" to
+                          delete your drawing and start over.
+                        </p>
+                        Enjoy!
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -127,28 +160,7 @@ limitations under the License.
           <div class="d-flex justify-content-center">
             <div class="media-column">
               <div class="row">
-                <div class="col mt-3 border">
-                  <!-- TODO: figure out collapsable or move to toast -->
-                  <!-- User guide -->
-                  <div class="card mt-3 mb-3">
-                    <div class="card-body">
-                      <h5 class="card-title">How to use</h5>
-                      <p>
-                        Make sure your camera is turned on (and give the
-                        permission to use it).
-                      </p>
-                      <p>
-                        Bring one hand into the frame, you should see a circle
-                        around your index finger. Pinch index finger and thumb
-                        together 👌 to start drawing (the circle will fill).
-                      </p>
-                      <p>
-                        Click on "Snap!" to snap a picture, or use "Reset" to
-                        delete your drawing and start over.
-                      </p>
-                      Enjoy!
-                    </div>
-                  </div>
+                <div class="col mt-3 border rounded white">
                   <!-- Gallery containing snapshots -->
                   <div class="container mt-3">
                     <h4>Gallery</h4>
@@ -163,5 +175,10 @@ limitations under the License.
       </div>
     </div>
   </body>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"
+  ></script>
   <script src="src/index.js"></script>
 </html>
