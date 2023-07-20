@@ -41,11 +41,13 @@ Once you're satisfied with your artwork click `Snap!` to create a snapshot. You 
 The Hand Pose model detects 20 key points: one for each finger segment, one at the wrist. In order to be flexible with regards to camera resolution this software uses a relative measure to detect a pinch:
 
 ```js
-const ratio = dist(thumb tip, index tip) / length(last thumb segment);
-const pinching = ratio < 1.1
+const a = dist(thumb tip, index tip);
+const b = length(last thumb segment);
+const ratio = a / b;
+const pinching = ratio < 1.1;
 ```
 
-- TODO: photo with keypoints and relevant distances
+![Photo showing the relevant keypoints and distances listed in the code for pinch detection detailed above.](./img/pinch_keypoints.png)
 
 ### Drawing
 
