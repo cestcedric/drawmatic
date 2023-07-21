@@ -23,7 +23,10 @@
     "lint": "eslint .",
     "build-dep": "cd ../../ && yarn && yarn build",
     "link-core": "yalc link @tensorflow/tfjs-core",
-    "link-webgl": "yalc link @tensorflow/tfjs-backend-webgl"
+    "link-webgl": "yalc link @tensorflow/tfjs-backend-webgl",
+    "deploy": "git subtree push --prefix dist origin gh-pages",
+    "deploy:fresh:unix": "rm -rf dist && npm run build && npm run deploy",
+    "deploy:fresh:windows": "rd /s /q dist && npm run build && npm run deploy"
   },
   "browser": {
     "crypto": false
