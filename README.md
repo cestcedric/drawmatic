@@ -4,7 +4,7 @@
 
 Draw images using nothing but your webcam, a neural network, and your hand!
 
-- TODO: add GIF
+![GIF showing me drawing a rocket.](./img/demo_rocket.gif)
 
 ## Intro
 
@@ -33,9 +33,6 @@ To activate draw mode pinch using thumb and index finger (like so 👌), as soon
 
 Once you're satisfied with your artwork click `Snap!` to create a snapshot. You can also delete everything you drew by hitting `Reset` and start over.
 
-- TODO: photo when not touching
-- TODO: photo when touching
-
 ### Pinch Detection
 
 The Hand Pose model detects 20 key points: one for each finger segment, one at the wrist. In order to be flexible with regards to camera resolution this software uses a relative measure to detect a pinch:
@@ -48,6 +45,9 @@ const pinching = ratio < 1.1;
 ```
 
 ![Photo showing the relevant keypoints and distances listed in the code for pinch detection detailed above.](./img/pinch_keypoints.png)
+
+Like most of the interesting code, pinch detection is performed in [camera.js](src/camera.js). The `Camera` class also takes care of setting up the canvas & video, as well as drawing displaying the output.  
+Some utils are placed in, surprisingly, [utils.js](src/util/util.js), default parameters can be set in [params.js](src/util/params.js). Setting up the app and wiring everything together is taken care of by [index.js](src/index.js).
 
 ### Drawing
 
@@ -65,10 +65,20 @@ Averaging over more than the last two positions leads to an even smoother line, 
 For snapshots a second canvas is created but not displayed.  
 That way the marker can be hidden without adding unnecessary complex logic to the live feed.
 
-You can see a demo [here]()
+You can see a video demo under [https://youtu.be/6zEuc-0vUZ0](https://youtu.be/6zEuc-0vUZ0).
 
-- TODO: add video
-- TODO: screenshot with snapshot next to camera feed
+![Photo showing the live feed with index tip marker (left) and snapshot without marker (right).](./img/live_vs_snapshot.png)
+
+---
+
+## Limitations and possible improvements
+
+Like every great product, Drawmatic comes with some limitations and potential for improvement, notably:
+
+- The accuracy of the pinch detection is variable and affected by lighting and hand-coloured things close to the actual hand (e.g. my forehead).
+- I have little frontend experience (which is why I chose to build a pure frontend app in the first place), and it shows.
+- There are probably ways to detect the necessary information using a more lightweight approach (see road map).
+- Alternatively, this could be developed in the completely opposite direction: making use of the hand pose model's ability to track multiple hands at the same time.
 
 ---
 
@@ -86,9 +96,7 @@ You can build and deploy Drawmatic locally using NodeJS and your favourite serve
 
 ### Web Version
 
-- TODO: deploy to github pages
-
-1. Head over to [link]()
+1. Head over to [link](https://cestcedric.github.io/drawmatic/)
 1. Enable webcam access
 1. Have fun!
 
@@ -116,9 +124,7 @@ Have a look at the roadmap below to see which features I'd like to add in future
    1. Probably with bootstrap ✔
    1. Add icon ✔
    1. Add "About" section to navbar ✔
-1. Try model (full/lite) and video size combinations for maximum performance
-1. Deploy to github pages
-   1. https://www.reddit.com/r/WebAssembly/comments/9297tg/wasm_and_github_pages/
+1. Add button to delete photos from gallery
 
 #### v2
 
