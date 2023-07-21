@@ -1,0 +1,2 @@
+:root{--videoWidth:640px;--videoHeight:480px;--columnWidth:670px}.row{display:flex}.column{flex:50%}#main{margin:0}#canvas-wrapper,#main{position:relative}.centered{display:flex;justify-content:center}.media-column{width:var(--columnWidth)}.red{background-color:red}.green{background-color:#adff2f}.blue{background-color:#00f}.yellow{background-color:#ff0}.background{background-color:#f6f8fc}.white{background-color:#fff}
+/*# sourceMappingURL=styles.4293dab6.css.map */
