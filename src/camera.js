@@ -279,7 +279,7 @@ export class Camera {
       const thumbSize = distSquared(keypoints[4], keypoints[3]);
       const ratio = fingertips / thumbSize;
 
-      if (ratio < 1.1) {
+      if (ratio < params.DEFAULT_CONFIG.pinchThreshold) {
         return true;
       }
     }
@@ -313,7 +313,7 @@ export class Camera {
     div.className = 'mb-3';
     div.appendChild(image);
 
-    document.getElementById('gallery').appendChild(div);
+    document.getElementById('gallery').prepend(div);
   };
 
   static resetPath = (camera) => async () => {

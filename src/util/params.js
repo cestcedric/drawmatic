@@ -118,4 +118,5 @@ export const DEFAULT_CONFIG = {
   model: 'MediaPipeHands',
   modelType: 'full',
   maxNumHands: 1,
+  pinchThreshold: 1.1,
 };
