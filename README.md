@@ -2,7 +2,7 @@
 
 ---
 
-Draw images using nothing but your webcam, a neural network, and your hand!
+Draw images using nothing but your webcam, a neural network, and your hand. [Try it out](https://cestcedric.github.io/drawmatic/)!
 
 ![GIF showing me drawing a rocket.](./img/demo_rocket.gif)
 
